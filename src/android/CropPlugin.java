@@ -26,6 +26,9 @@ public class CropPlugin extends CordovaPlugin {
     public boolean execute(String action, JSONArray args, final CallbackContext callbackContext) throws JSONException {
       if (action.equals("cropImage")) {
           String imagePath = args.getString(0);
+          JSONObject options = args.getJSONObject(1);
+          int targetWidth = options.getInt("targetWidth");
+          int targetHeight = options.getInt("targetHeight");
 
           this.inputUri = Uri.parse(imagePath);
           this.outputUri = Uri.fromFile(new File(getTempDirectoryPath() + "/" + System.currentTimeMillis()+ "-cropped.jpg"));
@@ -37,7 +40,14 @@ public class CropPlugin extends CordovaPlugin {
 
           cordova.setActivityResultCallback(this);
           Crop.of(this.inputUri, this.outputUri)
-                  .start(cordova.getActivity());
+                  .starCrop crop = Crop.of(this.inputUri, this.outputUri);
+          if(targetHeight != -1 && targetWidth != -1) {
+              crop.withMaxSize(targetWidth, targetHeight);
+              if(targetWidth == targetHeight) {
+                  crop.asSquare();
+              }
+          }
+          crop.start(cordova.getActivity());t(cordova.getActivity());
           return true;
       }
       return false;
