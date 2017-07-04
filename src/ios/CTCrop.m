@@ -7,6 +7,7 @@
 @property (assign) NSUInteger quality;
 @property (assign) NSUInteger targetWidth;
 @property (assign) NSUInteger targetHeight;
+@property (nonatomic , assign) BOOL isProfile;
 @end
 
 @implementation CTCrop
@@ -19,9 +20,11 @@
     self.quality = options[@"quality"] ? [options[@"quality"] intValue] : 100;
     self.targetWidth = options[@"targetWidth"] ? [options[@"targetWidth"] intValue] : -1;
     self.targetHeight = options[@"targetHeight"] ? [options[@"targetHeight"] intValue] : -1;
-    BOOL isProfile = self.targetWidth > 0 ? NO : YES;
+    self.isProfile = options[@"isProfile"] == 1 ? YES : NO;
     
-    NSLog("ISPROFILE", isProfile);
+    NSLog(self.isProfile ? @"ISPROFILE Yes" : @"ISPROFILE No");
+    NSLog(self.targetWidth > 0 ? @"ISPROFILE TARGET BIGGER 0 Yes" : @"ISPROFILE TARGET BIGGER 0 No");
+    NSLog(@"ISPROFILE TARGET %lu",self.targetWidth);
     
     NSString *filePrefix = @"file://";
     
@@ -49,7 +52,7 @@
     CGFloat length = MIN(width, height);
     cropController.toolbarHidden = YES;
     cropController.rotationEnabled = NO;
-    cropController.keepingCropAspectRatio = isProfile;
+    cropController.keepingCropAspectRatio = self.isProfile;
     
     cropController.imageCropRect = CGRectMake((width - length) / 2,
                                               (height - length) / 2,
