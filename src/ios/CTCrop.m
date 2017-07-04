@@ -19,7 +19,10 @@
     self.quality = options[@"quality"] ? [options[@"quality"] intValue] : 100;
     self.targetWidth = options[@"targetWidth"] ? [options[@"targetWidth"] intValue] : -1;
     self.targetHeight = options[@"targetHeight"] ? [options[@"targetHeight"] intValue] : -1;
-    BOOL isProfile = self.targetWidth > 0 ? NO : YES; 
+    BOOL isProfile = self.targetWidth > 0 ? NO : YES;
+    
+    NSLog("ISPROFILE", isProfile);
+    
     NSString *filePrefix = @"file://";
     
     if ([imagePath hasPrefix:filePrefix]) {
