@@ -20,11 +20,7 @@
     self.quality = options[@"quality"] ? [options[@"quality"] intValue] : 100;
     self.targetWidth = options[@"targetWidth"] ? [options[@"targetWidth"] intValue] : -1;
     self.targetHeight = options[@"targetHeight"] ? [options[@"targetHeight"] intValue] : -1;
-    self.isProfile = options[@"isProfile"] == 1 ? YES : NO;
-    
-    NSLog(self.isProfile ? @"ISPROFILE Yes" : @"ISPROFILE No");
-    NSLog(self.targetWidth > 0 ? @"ISPROFILE TARGET BIGGER 0 Yes" : @"ISPROFILE TARGET BIGGER 0 No");
-    NSLog(@"ISPROFILE TARGET %lu",self.targetWidth);
+    self.isProfile = [options[@"isProfile"] intValue] == 1 ? YES : NO;
     
     NSString *filePrefix = @"file://";
     
