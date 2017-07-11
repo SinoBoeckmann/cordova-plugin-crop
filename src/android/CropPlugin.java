@@ -49,7 +49,7 @@ public class CropPlugin extends CordovaPlugin {
           }else{
             crop.asSquare();
           }
-          crop.start(cordova.getActivity());t(cordova.getActivity());
+          crop.start(cordova.getActivity());
           return true;
       }
       return false;
