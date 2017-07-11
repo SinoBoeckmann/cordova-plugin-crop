@@ -83,12 +83,42 @@ static inline NSString *PELocalizedString(NSString *key, NSString *comment)
     self.navigationController.navigationBar.translucent = NO;
     self.navigationController.toolbar.translucent = NO;
 
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
-                                                                                          target:self
-                                                                                          action:@selector(cancel:)];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
-                                                                                           target:self
-                                                                                           action:@selector(done:)];
+    /*self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
+     target:self
+     action:@selector(cancel:)];
+     
+     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
+     target:self
+     action:@selector(done:)];*/
+    
+    //added custom button inner Text colors
+    UIBarButtonItem *leftbutton =
+    [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
+                                                  target:self
+                                                  action:@selector(cancel:)];
+    [leftbutton setTitleTextAttributes:
+     [NSDictionary dictionaryWithObjectsAndKeys:
+      [UIColor  colorWithRed:167/255.0
+                       green:23/255.0
+                        blue:165/255.0
+                       alpha:1], NSForegroundColorAttributeName,nil]
+                              forState:UIControlStateNormal];
+    
+    UIBarButtonItem *rightbutton =
+    [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
+                                                  target:self
+                                                  action:@selector(done:)];
+    [rightbutton setTitleTextAttributes:
+     [NSDictionary dictionaryWithObjectsAndKeys:
+      [UIColor  colorWithRed:167/255.0
+                       green:23/255.0
+                        blue:165/255.0
+                       alpha:1], NSForegroundColorAttributeName,nil]
+                               forState:UIControlStateNormal];
+    
+    
+    self.navigationItem.leftBarButtonItem = leftbutton;
+    self.navigationItem.rightBarButtonItem = rightbutton;
 
     if (!self.toolbarItems) {
         UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
