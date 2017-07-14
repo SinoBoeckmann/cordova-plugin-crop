@@ -41,14 +41,17 @@ public class CropPlugin extends CordovaPlugin {
 
           cordova.setActivityResultCallback(this);
           Crop crop = Crop.of(this.inputUri, this.outputUri);
-          if(targetHeight != -1 && targetWidth != -1 && isProfile != 1) {
+          if(targetHeight != -1 && targetWidth != -1 ) {
               crop.withMaxSize(targetWidth, targetHeight);
               if(targetWidth == targetHeight) {
                   crop.asSquare();
               }
-          }else{
-            crop.asSquare();
           }
+
+          if(isProfile == 1){
+              crop.asSquare();
+          }
+
           crop.start(cordova.getActivity());
           return true;
       }
