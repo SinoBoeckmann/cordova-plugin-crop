@@ -4,3 +4,6 @@
 .idea/modules.xml
 .idea/vcs.xml
 .idea/workspace.xml
+src/android/.idea/android.iml
+src/android/.idea/modules.xml
+src/android/.idea/workspace.xml
