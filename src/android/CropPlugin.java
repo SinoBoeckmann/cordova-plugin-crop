@@ -38,7 +38,6 @@ public class CropPlugin extends CordovaPlugin {
           pr.setKeepCallback(true);
           callbackContext.sendPluginResult(pr);
           this.callbackContext = callbackContext;
-
           cordova.setActivityResultCallback(this);
           Crop crop = Crop.of(this.inputUri, this.outputUri);
           if(targetHeight != -1 && targetWidth != -1 ) {
