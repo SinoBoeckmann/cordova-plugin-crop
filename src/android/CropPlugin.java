@@ -152,8 +152,3 @@ public class CropPlugin extends CordovaPlugin {
         this.callbackContext = callbackContext;
     }
 }
-Viewport
-Window
-×
-×
-×
