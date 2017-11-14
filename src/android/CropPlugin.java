@@ -24,55 +24,47 @@ public class CropPlugin extends CordovaPlugin {
 
     @Override
     public boolean execute(String action, JSONArray args, final CallbackContext callbackContext) throws JSONException {
-      if (action.equals("cropImage")) {
-          //String imagePath = args.getString(0);
-          String imagePath = args.getString(0);
-          JSONObject options = args.getJSONObject(1);
+        if (action.equals("cropImage")) {
+            String imagePath = args.getString(0);
 
-          //this.inputUri = Uri.parse(imagePath);
-          //this.outputUri = Uri.fromFile(new File(getTempDirectoryPath() + "/" + System.currentTimeMillis()+ "-cropped.jpg"));
-          int widthRatio = options.getInt("widthRatio");
-          int heightRatio = options.getInt("heightRatio");
-          int targetWidth = options.getInt("targetWidth");
-          int targetHeight = options.getInt("targetHeight");
+            this.inputUri = Uri.parse(imagePath);
+            this.outputUri = Uri.fromFile(new File(getTempDirectoryPath() + "/" + System.currentTimeMillis() + "-cropped.jpg"));
 
-          //PluginResult pr = new PluginResult(PluginResult.Status.NO_RESULT);
-          //pr.setKeepCallback(true);
-          //callbackContext.sendPluginResult(pr);
-          //this.callbackContext = callbackContext;
+            PluginResult pr = new PluginResult(PluginResult.Status.NO_RESULT);
+            pr.setKeepCallback(true);
+            callbackContext.sendPluginResult(pr);
+            this.callbackContext = callbackContext;
 
-          this.inputUri = Uri.parse(imagePath);
-          this.outputUri = Uri.fromFile(new File(getTempDirectoryPath() + "/" + System.currentTimeMillis()+ "-cropped.jpg"));
+            cordova.setActivityResultCallback(this);
+            startCropActivity(args);
+            return true;
+        }
+        return false;
+    }
 
+    private void startCropActivity(JSONArray args) {
+        int[] aspectRatio = readAspect(args);
+        if (aspectRatio != null && aspectRatio.length == 2) {
+            Crop.of(this.inputUri, this.outputUri)
+                    .withAspect(aspectRatio[0], aspectRatio[1])
+                    .start(cordova.getActivity());
+        } else {
+            Crop.of(this.inputUri, this.outputUri)
+                    .start(cordova.getActivity());
+        }
+    }
 
-/*           cordova.setActivityResultCallback(this);
-          Crop.of(this.inputUri, this.outputUri)
-                  .asSquare()
-                  .start(cordova.getActivity());
-          return true; */
-
-        PluginResult pr = new PluginResult(PluginResult.Status.NO_RESULT);
-          pr.setKeepCallback(true);
-          callbackContext.sendPluginResult(pr);
-          this.callbackContext = callbackContext;
-  
-          cordova.setActivityResultCallback(this);
-          Crop croper = Crop.of(this.inputUri, this.outputUri);
-  
-          if(targetHeight > 0 && targetWidth > 0) {
-              croper.withMaxSize(targetWidth, targetHeight);
-          }
-            
-          if(widthRatio > 0 && heightRatio > 0){
-              croper.withAspect(widthRatio, heightRatio);
-          } 
-  
-          croper.start(cordova.getActivity());
-  
-          return true;
-
-      }
-      return false;
+    private int[] readAspect(JSONArray args) {
+        try {
+            if (args.length() > 1) {
+                JSONArray jsonArray = args.getJSONArray(1);
+                return new int[]{jsonArray.getInt(0), jsonArray.getInt(1)};
+            } else {
+                return null;
+            }
+        } catch (JSONException e) {
+            return null;
+        }
     }
 
     @Override
